@@ -50,13 +50,12 @@ def getCounty(row):
 df = pd.read_csv('poi-data/old/Arbys_USA_CAN.csv', names=['longitude', 'latitude', 'title', 'address'])
 df = df.reindex(columns=['latitude', 'longitude'])
 df['name'] = 'Arby\'s'
-df2 = df.head(10)
-df2['zipcode'] = df2.apply(lambda row: getZipcode(row), axis=1)
-df2['county'] = df2.apply(lambda row: getCounty(row), axis=1)
-df2 = df2[df2.zipcode != 'None']
-print df2
+df['zipcode'] = df.apply(lambda row: getZipcode(row), axis=1)
+df['county'] = df.apply(lambda row: getCounty(row), axis=1)
+df = df[df.zipcode != 'None']
+print df
 
-#df.to_csv('poi-data/new/arbys.csv')
+df.to_csv('poi-data/new/arbys.csv')
 
 #search = SearchEngine(simple_zipcode=False)
 #result = search.by_coordinates(33.949688, -83.399628, radius=30, returns=1)
