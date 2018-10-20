@@ -4,6 +4,7 @@ import pandas as pd
 countZip = 0
 countCounty = 0
 search = SearchEngine(simple_zipcode=False)
+simpleSearch = SearchEngine(simple_zipcode=True)
 
 def getZipcode(row):
     global countZip
@@ -14,7 +15,8 @@ def getZipcode(row):
 
     latitude = row['latitude']
     longitude = row['longitude']
-    result = search.by_coordinates(latitude, longitude, radius=30, returns=1)
+
+    result = search.by_coordinates(latitude, longitude)
     if not result:
         return 'None'
     else:
@@ -22,27 +24,29 @@ def getZipcode(row):
 
 def getCounty(row):
     global countCounty
-    global search
+    global simpleSearch
     countCounty+= 1
     string = 'getting county ' + str(countCounty)
     print string
 
-    latitude = row['latitude']
-    longitude = row['longitude']
+    zipcode = row['zipcode']
 
-    result = search.by_coordinates(latitude, longitude, radius=30, returns=1)
+    result = simpleSearch.by_zipcode(zipcode)
     if not result:
         return 'None'
     else:
         return result[0].county
 
-df = pd.read_csv('poi-data/old/Arbys_USA_CAN.csv', names=['latitude', 'longitude', 'title', 'address'])
+#read from the csv file. columns are longitude, latitude, restaurant name, address
+df = pd.read_csv('poi-data/old/Arbys_USA_CAN.csv', names=['longitude', 'latitude', 'title', 'address'])
 df = df.reindex(columns=['latitude', 'longitude'])
 df['name'] = 'Arby\'s'
-df2 = df.head(10)
-df2['zipcode'] = df2.apply(lambda row: getZipcode(row), axis=1)
-df2['county'] = df2.apply(lambda row: getCounty(row), axis=1)
-print df2
+df['zipcode'] = df.apply(lambda row: getZipcode(row), axis=1)
+df['county'] = df.apply(lambda row: getCounty(row), axis=1)
+df = df['zipcode' != 'None']
+print df
+
+df.to_csv('poi-data/new/arbys.csv')
 
 #search = SearchEngine(simple_zipcode=False)
 #result = search.by_coordinates(33.949688, -83.399628, radius=30, returns=1)

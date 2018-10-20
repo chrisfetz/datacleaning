@@ -1,8 +1,8 @@
-
 from uszipcode import SearchEngine
+from uszipcode import Zipcode
 
 search = SearchEngine(simple_zipcode=False)
 
-result = search.by_coordinates(-114.063442, 50.930246, radius=249, returns=1)
+result = search.by_coordinates(33.8238144, -118.3849869)
 
 print result
