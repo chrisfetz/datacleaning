@@ -46,6 +46,15 @@ def getCounty(row):
             print result.county
             return result.county
 
+#loop that creates the csvs
+oldpath = 'poi-data/old'
+newpath = 'poi-data/new'
+csvs = {'arbys.csv', 'burgerking.csv', 'carlsjr.csv', 'chickfila.csv', 
+        'chipotle.csv', 'dominos.csv', 'dq.csv', 'fiveguys.csv', 
+        'hardees.csv', 'jimmyjohns.csv', 'kfc.csv', 'mcdonalds.csv', 
+        'pandaexpress.csv', 'pizzahut.csv', 'sonic.csv', 'subway.csv',
+        'tacobell.csv', 'wendys.csv', 'whataburger.csv', 'jackinthebox.csv'}
+
 #read from the csv file. columns are longitude, latitude, restaurant name, address
 df = pd.read_csv('poi-data/old/Arbys_USA_CAN.csv', names=['longitude', 'latitude', 'title', 'address'])
 df = df.reindex(columns=['latitude', 'longitude'])
