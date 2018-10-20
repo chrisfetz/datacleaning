@@ -1,5 +1,5 @@
-from uszipcode import SearchEngine
 import pandas as pd
+from uszipcode import SearchEngine
 
 countZip = 0
 countCounty = 0
