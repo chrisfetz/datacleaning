@@ -2,6 +2,10 @@ from uszipcode import SearchEngine
 import csv
 
 search = SearchEngine(simple_zipcode=False)
+result = search.by_coordinates(33.949688, -83.399628, radius=30, returns=1)
+print (result[0].county)
+print (result[0].zipcode)
+
 
 #with open ('<filename>') as csv_file:
 #    csv_reader = csv.reader(csv_file, delimiter=',')
