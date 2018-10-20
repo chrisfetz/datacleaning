@@ -52,10 +52,10 @@ df = df.reindex(columns=['latitude', 'longitude'])
 df['name'] = 'Arby\'s'
 df['zipcode'] = df.apply(lambda row: getZipcode(row), axis=1)
 df['county'] = df.apply(lambda row: getCounty(row), axis=1)
-df = df[df.zipcode != 'None']
+df = df[df.county != 'None']
 print df
 
-df.to_csv('poi-data/new/arbys.csv')
+df.to_csv('poi-data/new/arbys.csv', index=False)
 
 #search = SearchEngine(simple_zipcode=False)
 #result = search.by_coordinates(33.949688, -83.399628, radius=30, returns=1)
