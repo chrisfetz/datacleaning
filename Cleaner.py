@@ -18,35 +18,45 @@ def getZipcode(row):
 
     result = search.by_coordinates(latitude, longitude)
     if not result:
+        print 'None'
         return 'None'
     else:
+        print result[0].zipcode
         return result[0].zipcode
 
 def getCounty(row):
     global countCounty
-    global simpleSearch
+    global search
     countCounty+= 1
     string = 'getting county ' + str(countCounty)
     print string
 
     zipcode = row['zipcode']
+    print zipcode
 
-    result = simpleSearch.by_zipcode(zipcode)
-    if not result:
+    if zipcode == 'None':
+        print 'None'
         return 'None'
     else:
-        return result[0].county
+        result = search.by_zipcode(zipcode)
+        if not result:
+            print 'None'
+            return 'None'
+        else:
+            print result.county
+            return result.county
 
 #read from the csv file. columns are longitude, latitude, restaurant name, address
 df = pd.read_csv('poi-data/old/Arbys_USA_CAN.csv', names=['longitude', 'latitude', 'title', 'address'])
 df = df.reindex(columns=['latitude', 'longitude'])
 df['name'] = 'Arby\'s'
-df['zipcode'] = df.apply(lambda row: getZipcode(row), axis=1)
-df['county'] = df.apply(lambda row: getCounty(row), axis=1)
-df = df['zipcode' != 'None']
-print df
+df2 = df.head(10)
+df2['zipcode'] = df2.apply(lambda row: getZipcode(row), axis=1)
+df2['county'] = df2.apply(lambda row: getCounty(row), axis=1)
+df2 = df2[df2.zipcode != 'None']
+print df2
 
-df.to_csv('poi-data/new/arbys.csv')
+#df.to_csv('poi-data/new/arbys.csv')
 
 #search = SearchEngine(simple_zipcode=False)
 #result = search.by_coordinates(33.949688, -83.399628, radius=30, returns=1)
