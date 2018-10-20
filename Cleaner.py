@@ -1,5 +1,5 @@
 from uszipcode import SearchEngine
-import csv
+import pandas as pd
 
 search = SearchEngine(simple_zipcode=False)
 result = search.by_coordinates(33.949688, -83.399628, radius=30, returns=1)
